@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    winGOO - Signup Page
+    Author: Alok Raj
+    Copyright (c) 2026 Alok Raj. All rights reserved.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Alok Raj">
+    <title>Sign Up - winGOO</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .signup-header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .password-requirements {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .requirement {
+            margin: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .requirement::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #999;
+        }
+
+        .requirement.met::before {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .terms-checkbox input {
+            width: auto;
+            margin-right: 10px;
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+        .terms-checkbox label {
+            margin: 0;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .terms-checkbox a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .signup-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 10px;
+            color: #7f8c8d;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .google-signup {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .google-signup-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .google-signup-btn:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #764ba2;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3a3;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
+        <div class="signup-header">
+            <div class="logo"><a href="index.html">winGOO</a></div>
+            <p>Create your account</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="signupForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX">
+            </div>
+
+            <div class="form-group">
+                <label for="userType">Account Type</label>
+                <select id="userType" name="userType" required>
+                    <option value="">Select account type</option>
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                    <option value="agent">Real Estate Agent</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+            </div>
+
+            <div class="password-requirements">
+                <strong>Password Requirements:</strong>
+                <div class="requirement" id="req-length">At least 8 characters</div>
+                <div class="requirement" id="req-uppercase">One uppercase letter</div>
+                <div class="requirement" id="req-lowercase">One lowercase letter</div>
+                <div class="requirement" id="req-number">One number</div>
+                <div class="requirement" id="req-special">One special character (!@#$%^&*)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the <a href="term-conditions.html" target="_blank">Terms & Conditions</a> and <a href="privacy-policy.html" target="_blank">Privacy Policy</a></label>
+            </div>
+
+            <button type="submit" class="signup-btn">Create Account</button>
+        </form>
+
+        <div class="divider">
+            <span>Or sign up with</span>
+        </div>
+
+        <div class="google-signup">
+            <div id="g_id_onload"
+                 data-client_id="637556644945-40jv5c34fea7h9pllepvhhcjl2e41iek.apps.googleusercontent.com"
+                 data-callback="handleSignupResponse">
+            </div>
+            <div class="g_id_signin" data-type="standard"></div>
+        </div>
+
+        <div class="login-link">
+            Already have an account? <a href="login.html">Sign in here</a>
+        </div>
+    </div>
+
+    <script>
+        // Password validation
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+
+            // Check requirements
+            document.getElementById('req-length').classList.toggle('met', password.length >= 8);
+            document.getElementById('req-uppercase').classList.toggle('met', /[A-Z]/.test(password));
+            document.getElementById('req-lowercase').classList.toggle('met', /[a-z]/.test(password));
+            document.getElementById('req-number').classList.toggle('met', /[0-9]/.test(password));
+            document.getElementById('req-special').classList.toggle('met', /[!@#$%^&*]/.test(password));
+        });
+
+        // Google OAuth Signup Callback
+        function handleSignupResponse(response) {
+            // Decode token to get user info (reusing the function from login or decoding manually here)
+            // Since we don't have the decode function here, let's just use the credential ID for now or simplistic decode
+            
+            const responsePayload = decodeJwtResponse(response.credential);
+            
+            localStorage.setItem('user', JSON.stringify({
+                name: responsePayload.name,
+                email: responsePayload.email,
+                picture: responsePayload.picture
+            }));
+
+            // Google signup doesn't give us the role.
+            // We need to ask the user for their role if they sign up with Google
+            // Let's use a modal similar to login page
+            showRoleSelectionModal();
+        }
+
+        function decodeJwtResponse(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        function showRoleSelectionModal() {
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;z-index:9999;';
+            modal.innerHTML = `
+                <div style="background:white;padding:30px;border-radius:10px;text-align:center;max-width:400px;width:90%;">
+                    <h2>Select Account Type</h2>
+                    <p style="margin:10px 0 20px;">Please select how you want to use winGOO:</p>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <button onclick="selectRole('buyer')" style="padding:10px;background:#667eea;color:white;border:none;border-radius:5px;cursor:pointer;">I want to Buy/Rent</button>
+                        <button onclick="selectRole('seller')" style="padding:10px;background:#3498db;color:white;border:none;border-radius:5px;cursor:pointer;">I want to Sell/Lease</button>
+                        <button onclick="selectRole('agent')" style="padding:10px;background:#11998e;color:white;border:none;border-radius:5px;cursor:pointer;">I am an Agent</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            window.selectRole = function(role) {
+                localStorage.setItem('userRole', role);
+                document.body.removeChild(modal);
+                redirectToDashboard(role);
+            };
+        }
+
+        function redirectToDashboard(role) {
+            if (role === 'seller') window.location.href = 'dashboard-seller.html';
+            else if (role === 'agent') window.location.href = 'dashboard-agent.html';
+            else window.location.href = 'dashboard-buyer.html';
+        }
+
+        // Traditional Email Signup
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const userType = document.getElementById('userType').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+
+            // Validate inputs
+            if (!firstName || !lastName || !email || !userType || !password || !confirmPassword) {
+                showError('Please fill in all required fields');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            if (!terms) {
+                showError('You must agree to the terms and conditions');
+                return;
+            }
+
+            // Validate password strength
+            if (!isPasswordStrong(password)) {
+                showError('Password does not meet the requirements');
+                return;
+            }
+
+            // Simulate Signup (Frontend Only)
+            localStorage.setItem('user', JSON.stringify({
+                name: firstName + ' ' + lastName,
+                email: email
+            }));
+            localStorage.setItem('userRole', userType);
+
+            showSuccess('Account created successfully! Redirecting...');
+            setTimeout(() => {
+                redirectToDashboard(userType);
+            }, 1000);
+
+            /* 
+            // Send signup request to backend
+            fetch('backend/signup.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    phone: phone,
+                    userType: userType,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Store auth token and redirect
+                    localStorage.setItem('authToken', data.token);
+                    showSuccess('Account created successfully! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    showError(data.message || 'Signup failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('An error occurred during signup');
+            }); 
+            */
+        });
+
+        function isPasswordStrong(password) {
+            return password.length >= 8 &&
+                   /[A-Z]/.test(password) &&
+                   /[a-z]/.test(password) &&
+                   /[0-9]/.test(password) &&
+                   /[!@#$%^&*]/.test(password);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            document.querySelector('.success-message').style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Window object for Google Sign-In
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: '637556644945-40jv5c34fea7h9pllepvhhcjl2e41iek.apps.googleusercontent.com',
+                callback: handleSignupResponse
+            });
+        };
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
